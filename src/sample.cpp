@@ -1,17 +1,28 @@
 #include "graphics.h"
 
 int main(int argc, char*argv[]){
-	int x = 120, y = 120, dx = 1, dy = 1, ddy = 2, r = 100;
+	int x = 120, y = 120, dx = 5, dy = 1, ddy = 2, r = 100;
 	initwindow(800, 640);	//window size
 	while (1){
 		if(kbhit()) break;
-		x += dx; y += dy;
 		dy += ddy;
-		if (x < r) dx = 1;
-		if (x >= getmaxx() - r)  dx = -1;
-		if (y < r && dy < 0) dy = -dy;
-		if (y >= getmaxy() - r && dy > 0) dy = - dy;
-		
+		x += dx; 
+        if (x < r) {
+            dx = 5;
+        }
+        if (x >= getmaxx() - r) {
+            dx = -5;
+        }  
+
+        if (y < r && dy < 0) {
+            dy = -dy;
+        }
+        else if (y >= getmaxy() - r && dy > 0) {
+            dy = - dy;
+        }
+        else {
+            y += dy;
+        }
 		cleardevice();
 		setcolor(GREEN);
 		setfillstyle(SOLID_FILL, BLUE);
