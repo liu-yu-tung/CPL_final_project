@@ -15,7 +15,7 @@ public:
        ddy = 1;
     }
     void randomGenerator () {
-        r = std::uniform_int_distribution<>(10,100)(eng);
+        r = std::uniform_int_distribution<>(25,125)(eng);
         x = std::uniform_int_distribution<>(0, getmaxx())(eng);
         y = std::uniform_int_distribution<>(0, getmaxy())(eng);
         v = std::uniform_int_distribution<>(1, 30)(eng);
