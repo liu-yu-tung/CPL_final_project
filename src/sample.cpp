@@ -20,12 +20,12 @@ struct C {
 class Ball {
 public:
     Ball() {
-        r = 50, dx = 5, dy= 1, x = 0, y = 0;
+        r = 50, dx = 5, dy= 1, x = 0, y = 0, v = 5;
         color = GREEN;
         ddy = 1;
     }
-    Ball (int _r, int _x, int _y, int _dx, int _color) {
-       r = _r, x = _x, y = _y, dx = _dx, color = _color;
+    Ball (int _r, int _x, int _y, int _v, int _color) {
+       r = _r, x = _x, y = _y, v = _v, color = _color;
        dy = 1;
        ddy = 1;
     }
@@ -33,24 +33,23 @@ public:
         r = std::uniform_int_distribution<>(10,100)(eng);
         x = std::uniform_int_distribution<>(0, getmaxx())(eng);
         y = std::uniform_int_distribution<>(0, getmaxy())(eng);
-        dx = std::uniform_int_distribution<>(1, 10)(eng);
+        v = std::uniform_int_distribution<>(1, 30)(eng);
         dy = std::uniform_int_distribution<>(1, 3)(eng);
-        color = 5;
+        color = std::uniform_int_distribution<>(0, 15)(eng);
         ddy = 1;
     }
     void motion () {
 		dy += ddy;
 		x += dx; 
-        if (x < r) dx = 5;
-        else if (x >= getmaxx() - r) dx = -5;
+        if (x < r) dx = v;
+        else if (x >= getmaxx() - r) dx = -v;
         if (y < r && dy < 0) dy = -dy;
         else if (y >= getmaxy() - r && dy > 0) dy = - dy;
         else y += dy;
     }
     std::mt19937 eng = seeded_engine();
-    std::default_random_engine defaultEng;
 
-    int r, dx, dy, ddy, x, y, color;
+    int r, dx, dy, ddy, x, y, color, v;
 
 };
 
@@ -59,8 +58,8 @@ int main(int argc, char*argv[]){
     srand(time(NULL));
     Ball b; // must be outside the while function
     Ball c(100, 0, 100, 3, YELLOW);
-    Ball *balls = new Ball[5];
-    for (int i=0; i<5; i++) {
+    Ball *balls = new Ball[10];
+    for (int i=0; i<10; i++) {
         balls[i].randomGenerator();
     }
 	initwindow(1440, 800);	//window size
@@ -68,7 +67,7 @@ int main(int argc, char*argv[]){
 		if(kbhit()) break;
 		cleardevice();
 		//setcolor(GREEN);
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<10; i++) {
             setfillstyle(SOLID_FILL, balls[i].color);
             fillellipse(balls[i].x, balls[i].y, balls[i].r, balls[i].r);
             balls[i].motion();
