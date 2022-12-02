@@ -11,13 +11,24 @@ Ball::Ball (int _r, int _x, int _y, int _v, int _color) {
     ddy = 1;
 }
 void Ball::randomGenerator () {
+    /*
     r = std::uniform_int_distribution<>(25,125)(eng);
     x = std::uniform_int_distribution<>(0, getmaxx())(eng);
     y = std::uniform_int_distribution<>(0, getmaxy())(eng);
     v = std::uniform_int_distribution<>(1, 30)(eng);
     dy = std::uniform_int_distribution<>(1, 5)(eng);
     color = std::uniform_int_distribution<>(0, 15)(eng);
+    */
+
     ddy = 1;
+    r = rand()%100+25;
+    x = rand()%1600;
+    y = rand()%800;
+    v = rand()%30+1;
+    dy = rand()%5;
+    color = rand()%16;
+    std::cout << color << std::endl;
+    
 }
 void Ball::motion () {
     dy += ddy;
@@ -27,6 +38,8 @@ void Ball::motion () {
     if (y < r && dy < 0) dy = -dy;
     else if (y >= getmaxy() - r && dy > 0) dy = - dy;
     else y += dy;
+
+    std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
 }
 std::mt19937 Ball::seeded_engine() { 
     std::random_device r;

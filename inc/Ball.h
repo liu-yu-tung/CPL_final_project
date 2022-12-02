@@ -2,6 +2,8 @@
 #define BALL_H
 
 #include "graphics.h"
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <random>
 
@@ -12,6 +14,7 @@ public:
     void randomGenerator ();
     void motion ();
     int r, dx, dy, ddy, x, y, color, v;
+    int id = -1;
 private:
     std::mt19937 seeded_engine();
     std::mt19937 eng = seeded_engine();

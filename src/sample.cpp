@@ -4,11 +4,13 @@ int main(int argc, char*argv[]){
     /*==============
         create object outside of the while loop
     ================*/
-    Ball b; 
-    Ball c(100, 0, 100, 3, YELLOW);
+    srand(time(0));
+   // Ball b; 
+   // Ball c(100, 0, 100, 3, YELLOW);
     Ball *balls = new Ball[10];
     for (int i=0; i<10; i++) {
         balls[i].randomGenerator();
+        balls[i].id = i;
     }
 	initwindow(1440, 800);	//window size
 	while (1){
@@ -20,12 +22,6 @@ int main(int argc, char*argv[]){
             fillellipse(balls[i].x, balls[i].y, balls[i].r, balls[i].r);
             balls[i].motion();
         }
-		setfillstyle(SOLID_FILL, b.color);
-		fillellipse(b.x, b.y, b.r, b.r);
-        b.motion();
-		setfillstyle(SOLID_FILL, c.color);
-		fillellipse(c.x, c.y, c.r, c.r);
-        c.motion();
 		refresh();
 		delay(25); 
 	}
