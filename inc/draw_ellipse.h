@@ -4,7 +4,6 @@
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
-#include "SDL2/SDL_bgi.h"
 #include <string>
 void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY)
 {
