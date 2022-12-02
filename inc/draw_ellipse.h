@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <string>
+
 void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY)
 {
     double pi  = 3.14159265358979323846264338327950288419716939937510;
@@ -50,6 +51,22 @@ void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY)
         SDL_RenderDrawLine(r, x0 - x, y0 - y,    x0 - x1, y0 - y1 );//quadrant TL
         SDL_RenderDrawLine(r, x0 - x, y0 + y,    x0 - x1, y0 + y1 );//quadrant BL
         SDL_RenderDrawLine(r, x0 + x, y0 + y,    x0 + x1, y0 + y1 );//quadrant BR
+    }
+}
+void draw_circle(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
+{
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    for (int w = 0; w < radius * 2; w++)
+    {
+        for (int h = 0; h < radius * 2; h++)
+        {
+            int dx = radius - w; // horizontal offset
+            int dy = radius - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (radius * radius))
+            {
+                SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+            }
+        }
     }
 }
 #endif // DRAW_ELLIPSE_H_INCLUDED

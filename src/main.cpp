@@ -7,7 +7,9 @@ and may not be redistributed without written permission.*/
 #include <string>
 #include"draw_ellipse.h"
 #include "ball.h"
+#include "LTexture.h"
 
+/*
 class LTexture {
 public:
 	LTexture();
@@ -31,6 +33,7 @@ private:
 	int mWidth;
 	int mHeight;
 };
+*/
 
 class Dot {
 public:
@@ -57,8 +60,6 @@ bool init();
 bool loadMedia();
 void close();
 bool checkCollision( SDL_Rect a, SDL_Rect b );
-
-
 
 int main( int argc, char* args[] ) {
 	srand(time(0));
