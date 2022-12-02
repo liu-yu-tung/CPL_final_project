@@ -20,6 +20,7 @@ bool init();
 bool loadMedia();
 void close();
 bool checkCollision( SDL_Rect a, SDL_Rect b );
+SDL_Rect createRect(int x, int y, int w, int h);
 
 int main( int argc, char* args[] ) {
 	srand(time(0));
@@ -39,11 +40,7 @@ int main( int argc, char* args[] ) {
 			bool quit = false;
 			SDL_Event e;
 			Dot dot;
-			SDL_Rect wall;
-			wall.x = 300;
-			wall.y = 40;
-			wall.w = 40;
-			wall.h = 400;
+			SDL_Rect wall = createRect(0, SCREEN_HEIGHT-40, SCREEN_WIDTH, 40);
 			while( !quit ) {
 				while( SDL_PollEvent( &e ) != 0 ) {
 					if( e.type == SDL_QUIT ) {
@@ -63,7 +60,6 @@ int main( int argc, char* args[] ) {
 					balls[i].motion();
 				}
 				SDL_RenderPresent( gRenderer );
-
 			}
 		}
 	}
@@ -103,10 +99,14 @@ bool init() {
 			}
 		}
 	}
-
 	return success;
 }
 
+SDL_Rect createRect(int x, int y, int w, int h) {
+	SDL_Rect rect;
+	rect.x = x; rect.y = y; rect.w = w; rect.h = h;
+	return rect;
+}
 bool loadMedia() {
 	bool success = true;
 	if( !gDotTexture.loadFromFile( "./img/dot.bmp" ) ) {
