@@ -22,7 +22,7 @@ void Ball::randomGenerator () {
     ddy = 1;
     r = rand()%100+25;
     x = rand()%1600;
-    y = rand()%800;
+    y = rand()%(800-r);
     v = rand()%30+1;
     dy = rand()%5;
     color = rand()%16;
