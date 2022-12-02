@@ -3,6 +3,7 @@ and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, standard IO, and strings
 #include"draw_ellipse.h"
+#include "ball.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -466,6 +467,13 @@ bool checkCollision( SDL_Rect a, SDL_Rect b )
 
 int main( int argc, char* args[] )
 {
+	// create balls
+	srand(time(0));
+	Ball *balls = new Ball[10];
+	for (int i=0; i<10; i++) {
+        balls[i].randomGenerator();
+        balls[i].id = i;
+    }
 	//Start up SDL and create window
 	if( !init() )
 	{
@@ -530,6 +538,10 @@ int main( int argc, char* args[] )
 				//Render dot
 				dot.render();
                 sdl_ellipse(gRenderer, 300, 200, 50, 50);
+				for (int i=0; i<10; i++) {
+					sdl_ellipse(gRenderer, balls[i].x, balls[i].y, balls[i].r, balls[i].r);
+					balls[i].motion();
+				}
 				//Update screen
 				SDL_RenderPresent( gRenderer );
 

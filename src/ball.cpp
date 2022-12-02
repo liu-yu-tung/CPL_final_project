@@ -2,7 +2,6 @@
 
 Ball::Ball() {
     r = 50, dx = 5, dy= 1, x = 0, y = 0, v = 5;
-    color = GREEN;
     ddy = 1;
 }
 Ball::Ball (int _r, int _x, int _y, int _v, int _color) {
@@ -27,16 +26,16 @@ void Ball::randomGenerator () {
     v = rand()%30+1;
     dy = rand()%5;
     color = rand()%16;
-    std::cout << color << std::endl;
+    //std::cout << color << std::endl;
     
 }
 void Ball::motion () {
     dy += ddy;
     x += dx; 
     if (x < r) dx = v;
-    else if (x >= getmaxx() - r) dx = -v;
+    else if (x >= 640 - r) dx = -v;
     if (y < r && dy < 0) dy = -dy;
-    else if (y >= getmaxy() - r && dy > 0) dy = - dy;
+    else if (y >= 480 - r && dy > 0) dy = - dy;
     else y += dy;
 
     std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
