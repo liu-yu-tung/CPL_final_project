@@ -8,47 +8,7 @@ and may not be redistributed without written permission.*/
 #include"draw_ellipse.h"
 #include "ball.h"
 #include "LTexture.h"
-
-/*
-class LTexture {
-public:
-	LTexture();
-	~LTexture();
-	bool loadFromFile( std::string path );
-
-	#if defined(SDL_TTF_MAJOR_VERSION)
-	bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
-	#endif
-
-	void free();
-	void setColor( Uint8 red, Uint8 green, Uint8 blue );
-	void setBlendMode( SDL_BlendMode blending );
-	void setAlpha( Uint8 alpha );
-	void render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
-	int getWidth();
-	int getHeight();
-
-private:
-	SDL_Texture* mTexture;
-	int mWidth;
-	int mHeight;
-};
-*/
-
-class Dot {
-public:
-	static const int DOT_WIDTH = 20;
-	static const int DOT_HEIGHT = 20;
-	static const int DOT_VEL = 10;
-	Dot();
-	void handleEvent( SDL_Event& e );
-	void move( SDL_Rect& wall );
-	void render();
-private:
-	int mPosX, mPosY;
-	int mVelX, mVelY;
-	SDL_Rect mCollider;
-};
+#include "dot.h"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -167,15 +127,9 @@ void close() {
 }
 
 bool checkCollision( SDL_Rect a, SDL_Rect b ) {
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-    leftA = a.x;
-    rightA = a.x + a.w;
-    topA = a.y;
-    bottomA = a.y + a.h;
-    rightB = b.x + b.w;
+    int leftA, leftB, rightA, rightB, topA, topB, bottomA, bottomB;
+    leftA = a.x; rightA = a.x + a.w; topA = a.y; 
+	bottomA = a.y + a.h; rightB = b.x + b.w;
     topB = b.y;
     bottomB = b.y + b.h;
     if( bottomA <= topB ) {
@@ -257,19 +211,15 @@ void LTexture::free() {
 		mHeight = 0;
 	}
 }
-
 void LTexture::setColor( Uint8 red, Uint8 green, Uint8 blue ) {
 	SDL_SetTextureColorMod( mTexture, red, green, blue );
 }
-
 void LTexture::setBlendMode( SDL_BlendMode blending ) {
 	SDL_SetTextureBlendMode( mTexture, blending );
 }
-
 void LTexture::setAlpha( Uint8 alpha ) {
 	SDL_SetTextureAlphaMod( mTexture, alpha );
 }
-
 void LTexture::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip ) {
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 	if( clip != NULL ) {
@@ -278,24 +228,18 @@ void LTexture::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* ce
 	}
 	SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip );
 }
-
 int LTexture::getWidth() {
 	return mWidth;
 }
-
 int LTexture::getHeight() {
 	return mHeight;
 }
-
 Dot::Dot() {
-    mPosX = 0;
-    mPosY = 0;
+    mPosX = 0; mPosY = 0;
 	mCollider.w = DOT_WIDTH;
 	mCollider.h = DOT_HEIGHT;
-    mVelX = 0;
-    mVelY = 0;
+    mVelX = 0; mVelY = 0;
 }
-
 void Dot::handleEvent( SDL_Event& e ) {
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 ) {
         switch( e.key.keysym.sym ) {
@@ -314,16 +258,13 @@ void Dot::handleEvent( SDL_Event& e ) {
         }
     }
 }
-
 void Dot::move( SDL_Rect& wall ) {
     mPosX += mVelX;
 	mCollider.x = mPosX;
-
     if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > SCREEN_WIDTH ) || checkCollision( mCollider, wall ) ) {
         mPosX -= mVelX;
 		mCollider.x = mPosX;
     }
-
     mPosY += mVelY;
 	mCollider.y = mPosY;
     if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) || checkCollision( mCollider, wall ) ) {
@@ -331,7 +272,6 @@ void Dot::move( SDL_Rect& wall ) {
 		mCollider.y = mPosY;
     }
 }
-
 void Dot::render() {
 	gDotTexture.render( mPosX, mPosY );
 }
