@@ -9,6 +9,9 @@ Ball::Ball (int _r, int _x, int _y, int _v, int _color) {
     dy = 1;
     ddy = 1;
 }
+void Ball::init(int _screenWidth, int _screenHeight, int _floorHeight) {
+    screenWidth = _screenWidth, screenHeight = _screenHeight, floorHeight = _floorHeight;
+}
 void Ball::randomGenerator () {
     /*
     r = std::uniform_int_distribution<>(25,125)(eng);
@@ -20,8 +23,8 @@ void Ball::randomGenerator () {
     */
     ddy = 1;
     r = rand() %  100 + 25;
-    x = rand() % (1280 - r);
-    y = rand() % (720 / 2 - r);
+    x = rand() % (screenWidth - r);
+    y = rand() % (screenHeight / 2 - r);
     v = rand() % 15 + 1;
     dy = rand() % 4 + 1;
     color = rand() % 16;
@@ -31,12 +34,12 @@ void Ball::motion () {
     dy += ddy;
     x += dx; 
     if (x < r) dx = v;
-    else if (x >= 1280 - r) dx = -v;
+    else if (x >= screenWidth - r) dx = -v;
     if (y < r && dy < 0) dy = -dy;
-    else if (y >= 720 - r && dy > 0) dy = - dy;
+    else if (y >= screenHeight - floorHeight - r && dy > 0) dy = - dy;
     else y += dy;
 
-    std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
+    //std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
 }
 std::mt19937 Ball::seeded_engine() { 
     std::random_device r;

@@ -26,6 +26,7 @@ int main( int argc, char* args[] ) {
 	srand(time(0));
 	Ball *balls = new Ball[10];
 	for (int i=0; i<10; i++) {
+		balls[i].init(SCREEN_WIDTH, SCREEN_HEIGHT, 40);
         balls[i].randomGenerator();
         balls[i].id = i;
     }
