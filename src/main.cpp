@@ -2,12 +2,16 @@
 and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, standard IO, and strings
+#include <SDL.h>
+#include <SDL2/SDL_image.h>
+#include <iostream>
+#include <string>
 #include"draw_ellipse.h"
 #include "ball.h"
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
 //Texture wrapper class
 class LTexture
@@ -503,10 +507,6 @@ int main( int argc, char* args[] )
 			wall.y = 40;
 			wall.w = 40;
 			wall.h = 400;
-
-
-			//setfillstyle(SOLID_FILL, 1);
-			//fillellipse(200, 150, 50, 50);
 
 			//While application is running
 			while( !quit )

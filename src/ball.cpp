@@ -18,24 +18,22 @@ void Ball::randomGenerator () {
     dy = std::uniform_int_distribution<>(1, 5)(eng);
     color = std::uniform_int_distribution<>(0, 15)(eng);
     */
-
     ddy = 1;
-    r = rand()%100+25;
-    x = rand()%1600;
-    y = rand()%(800-r);
-    v = rand()%30+1;
-    dy = rand()%5;
-    color = rand()%16;
+    r = rand() %  100 + 25;
+    x = rand() % (1280 - r);
+    y = rand() % (720 / 2 - r);
+    v = rand() % 15 + 1;
+    dy = rand() % 4 + 1;
+    color = rand() % 16;
     //std::cout << color << std::endl;
-    
 }
 void Ball::motion () {
     dy += ddy;
     x += dx; 
     if (x < r) dx = v;
-    else if (x >= 640 - r) dx = -v;
+    else if (x >= 1280 - r) dx = -v;
     if (y < r && dy < 0) dy = -dy;
-    else if (y >= 480 - r && dy > 0) dy = - dy;
+    else if (y >= 720 - r && dy > 0) dy = - dy;
     else y += dy;
 
     std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
