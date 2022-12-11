@@ -110,7 +110,7 @@ SDL_Rect createRect(int x, int y, int w, int h) {
 }
 bool loadMedia() {
 	bool success = true;
-	if( !gDotTexture.loadFromFile( "./img/dot.bmp" ) ) {
+	if( !gDotTexture.loadFromFile( "./img/smile.bmp" ) ) {
 		printf( "Failed to load dot texture!\n" );
 		success = false;
 	}
@@ -236,7 +236,7 @@ int LTexture::getHeight() {
 	return mHeight;
 }
 Dot::Dot() {
-    mPosX = 0; mPosY = 0;
+    mPosX = 400; mPosY = 600;
 	mCollider.w = DOT_WIDTH;
 	mCollider.h = DOT_HEIGHT;
     mVelX = 0; mVelY = 0;
@@ -244,16 +244,16 @@ Dot::Dot() {
 void Dot::handleEvent( SDL_Event& e ) {
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 ) {
         switch( e.key.keysym.sym ) {
-            case SDLK_UP: mVelY -= DOT_VEL; break;
-            case SDLK_DOWN: mVelY += DOT_VEL; break;
+            //case SDLK_UP: mVelY -= DOT_VEL; break;
+            //case SDLK_DOWN: mVelY += DOT_VEL; break;
             case SDLK_LEFT: mVelX -= DOT_VEL; break;
             case SDLK_RIGHT: mVelX += DOT_VEL; break;
         }
     }
     else if( e.type == SDL_KEYUP && e.key.repeat == 0 ) {
         switch( e.key.keysym.sym ) {
-            case SDLK_UP: mVelY += DOT_VEL; break;
-            case SDLK_DOWN: mVelY -= DOT_VEL; break;
+            //case SDLK_UP: mVelY += DOT_VEL; break;
+            //case SDLK_DOWN: mVelY -= DOT_VEL; break;
             case SDLK_LEFT: mVelX += DOT_VEL; break;
             case SDLK_RIGHT: mVelX -= DOT_VEL; break;
         }
@@ -266,12 +266,12 @@ void Dot::move( SDL_Rect& wall ) {
         mPosX -= mVelX;
 		mCollider.x = mPosX;
     }
-    mPosY += mVelY;
-	mCollider.y = mPosY;
-    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) || checkCollision( mCollider, wall ) ) {
-        mPosY -= mVelY;
-		mCollider.y = mPosY;
-    }
+    //mPosY += mVelY;
+	//mCollider.y = mPosY;
+    //if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) || checkCollision( mCollider, wall ) ) {
+    //    mPosY -= mVelY;
+	//	mCollider.y = mPosY;
+    //}
 }
 void Dot::render() {
 	gDotTexture.render( mPosX, mPosY );
