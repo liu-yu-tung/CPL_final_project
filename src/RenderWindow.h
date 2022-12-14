@@ -16,7 +16,6 @@ public:
     void render(Entity& p_entity);
     void renderBackground(SDL_Texture * backGround, int BGwidth, int BGheight);
     void display();
-    SDL_Renderer* GetRenderer();
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;

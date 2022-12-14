@@ -7,17 +7,15 @@
 class Entity
 {
 public:
-    Entity(){}
     Entity(float p_x, float p_y, SDL_Texture* p_tex);
-    Entity(float p_x, float p_y, SDL_Texture* p_tex, float cFrame_x, float cFrame_y, float cFrame_w, float cFrame_h);
-
     float getX();
     float getY();
     SDL_Texture* getTex();
     SDL_Rect getCurrentFrame();
+    void handleEvent(SDL_Event &e);
     void move();
-protected:
-    float x, y, vx = 0, vy = 0;
+private:
+    float x, y, vx, vy;
     SDL_Rect currentFrame;
     SDL_Texture* tex;
 };

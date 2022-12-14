@@ -2,63 +2,11 @@
 and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, standard IO, and strings
-
-#include<SDL.h>
-#include<SDL2/SDL_image.h>
-#include<iostream>
-
-#include"RenderWindow.h"
-#include"Entity.h"
-
-extern const int SCREEN_WIDTH = 1280;
-extern const int SCREEN_HEIGHT = 720;
-
-int main(int argc, char* args[])
-{
-
-    if(SDL_Init(SDL_INIT_VIDEO) > 0)
-        std::cout << "SDL_Init has failed." << std::endl;
-
-    if(!(IMG_Init(IMG_INIT_PNG)))
-        std::cout << "IMG_onit has failed." << std::endl;
-
-    RenderWindow window("GAME", SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    SDL_Texture* dot = window.loadTexture("./img/dot.bmp");
-    SDL_Texture* BackGround = window.loadTexture("./img/press.bmp");
-
-    Entity entities[3] = {Entity(0, 0, dot),
-                          Entity(30, 30, dot),
-                          Entity(30, 0, dot)};
-
-    bool gameRunning = true;
-
-    SDL_Event event;
-
-    while(gameRunning){
-        while(SDL_PollEvent(&event)){
-            if(event.type == SDL_QUIT)
-                gameRunning = false;
-            entities[2].handleEvent(event);
-        }
-        window.clear();
-
-        entities[2].move();
-
-       window.renderBackground(BackGround, 640, 480);
-
-        for(int i = 0; i < 3; i++){
-            window.render(entities[i]);
-        }
-
-        window.display();
-    }
-    window.cleanUp();
-    SDL_Quit();
-    return 0;
-}
-
-/*#include"draw_ellipse.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <stdio.h>
+#include <string>
+#include "SDL_bgi.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -76,7 +24,7 @@ class LTexture
 
 		//Loads image at specified path
 		bool loadFromFile( std::string path );
-
+		
 		#if defined(SDL_TTF_MAJOR_VERSION)
 		//Creates image from font string
 		bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
@@ -93,7 +41,7 @@ class LTexture
 
 		//Set alpha modulation
 		void setAlpha( Uint8 alpha );
-
+		
 		//Renders texture at given point
 		void render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
@@ -139,7 +87,7 @@ class Dot
 
 		//The velocity of the dot
 		int mVelX, mVelY;
-
+		
 		//Dot's collision box
 		SDL_Rect mCollider;
 };
@@ -251,12 +199,11 @@ bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColo
 		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
 
-
+	
 	//Return success
 	return mTexture != NULL;
 }
 #endif
-
 
 void LTexture::free()
 {
@@ -281,7 +228,7 @@ void LTexture::setBlendMode( SDL_BlendMode blending )
 	//Set blending function
 	SDL_SetTextureBlendMode( mTexture, blending );
 }
-
+		
 void LTexture::setAlpha( Uint8 alpha )
 {
 	//Modulate texture alpha
@@ -450,7 +397,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load press texture
-	if( !gDotTexture.loadFromFile( "./img/dot.bmp" ) )
+	if( !gDotTexture.loadFromFile( "dot.bmp" ) )
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
@@ -464,7 +411,7 @@ void close()
 	//Free loaded images
 	gDotTexture.free();
 
-	//Destroy window
+	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
@@ -535,7 +482,7 @@ int main( int argc, char* args[] )
 			printf( "Failed to load media!\n" );
 		}
 		else
-		{
+		{	
 			//Main loop flag
 			bool quit = false;
 
@@ -551,11 +498,7 @@ int main( int argc, char* args[] )
 			wall.y = 40;
 			wall.w = 40;
 			wall.h = 400;
-
-
-			//setfillstyle(SOLID_FILL, 1);
-			//fillellipse(200, 150, 50, 50);
-
+			
 			//While application is running
 			while( !quit )
 			{
@@ -572,6 +515,8 @@ int main( int argc, char* args[] )
 					dot.handleEvent( e );
 				}
 
+				sdl_ellips()
+
 				//Move the dot and check collision
 				dot.move( wall );
 
@@ -580,15 +525,14 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( gRenderer );
 
 				//Render wall
-				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );		
 				SDL_RenderDrawRect( gRenderer, &wall );
-
+				
 				//Render dot
 				dot.render();
-                sdl_ellipse(gRenderer, 300, 200, 50, 50);
+
 				//Update screen
 				SDL_RenderPresent( gRenderer );
-
 			}
 		}
 	}
@@ -598,4 +542,3 @@ int main( int argc, char* args[] )
 
 	return 0;
 }
-*/

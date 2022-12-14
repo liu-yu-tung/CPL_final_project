@@ -5,7 +5,6 @@
 #include"RenderWindow.h"
 #include"Entity.h"
 
-
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
@@ -26,22 +25,11 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 SDL_Texture* RenderWindow::loadTexture(const char* p_filePath)
 {
     SDL_Texture* texture = NULL;
-//    SDL_Surface* tempSurface = IMG_Load(p_filePath);
-//
-//    SDL_SetColorKey( tempSurface, SDL_TRUE, SDL_MapRGB( tempSurface->format, 0xFF, 0xFF, 0xFF ) );
-//
-//    texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-//
-//    SDL_FreeSurface(tempSurface);
     texture = IMG_LoadTexture(renderer, p_filePath);
+
     if(texture == NULL)
         std::cout << "Failed to load texture." << std::endl;
     return texture;
-}
-
-SDL_Renderer* RenderWindow::GetRenderer()
-{
-    return renderer;
 }
 
 void RenderWindow::cleanUp()
@@ -63,10 +51,10 @@ void RenderWindow::render(Entity& p_entity)
     src.h = p_entity.getCurrentFrame().h;
 
     SDL_Rect dst;
-    dst.x = p_entity.getX();
-    dst.y = p_entity.getY();
-    dst.w = p_entity.getCurrentFrame().w;
-    dst.h = p_entity.getCurrentFrame().h;
+    dst.x = p_entity.getX() * 4;
+    dst.y = p_entity.getY() * 4;
+    dst.w = p_entity.getCurrentFrame().w*3;
+    dst.h = p_entity.getCurrentFrame().h*3;
 
     SDL_RenderCopy(renderer, p_entity.getTex(), &src, &dst);
 }
