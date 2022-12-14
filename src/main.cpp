@@ -9,9 +9,14 @@ and may not be redistributed without written permission.*/
 
 #include"RenderWindow.h"
 #include"Entity.h"
+#include"Player.h"
+#include"ball.h"
+#include"Timer.h"
 
 extern const int SCREEN_WIDTH = 1280;
 extern const int SCREEN_HEIGHT = 720;
+
+
 
 int main(int argc, char* args[])
 {
@@ -20,16 +25,25 @@ int main(int argc, char* args[])
         std::cout << "SDL_Init has failed." << std::endl;
 
     if(!(IMG_Init(IMG_INIT_PNG)))
-        std::cout << "IMG_onit has failed." << std::endl;
+        std::cout << "IMG_Init has failed." << std::endl;
 
     RenderWindow window("GAME", SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    SDL_Texture* dot = window.loadTexture("./img/dot.bmp");
     SDL_Texture* BackGround = window.loadTexture("./img/press.bmp");
 
-    Entity entities[3] = {Entity(0, 0, dot),
-                          Entity(30, 30, dot),
-                          Entity(30, 0, dot)};
+
+    SDL_Texture* playerTex = window.loadTexture("./img/player.png");
+
+    Player player(0, 520, playerTex, 0, 0, 134, 200);
+
+    Timer timer;
+
+    Ball *balls = new Ball[10];
+	for (int i=0; i<10; i++) {
+		balls[i].init(SCREEN_WIDTH, SCREEN_HEIGHT, 40);
+        balls[i].randomGenerator();
+        balls[i].id = i;
+    }
 
     bool gameRunning = true;
 
@@ -39,17 +53,23 @@ int main(int argc, char* args[])
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT)
                 gameRunning = false;
-            entities[2].handleEvent(event);
+            player.handleEvent(event);
         }
         window.clear();
 
-        entities[2].move();
+        player.move();
+        player.animation();
 
-       window.renderBackground(BackGround, 640, 480);
 
-        for(int i = 0; i < 3; i++){
-            window.render(entities[i]);
-        }
+//        for(int i = 0; i < 10; i++){
+//            window.render(balls[i]);
+//        }
+        window.renderBackground(BackGround, 640, 480);
+
+        timer.loadTimer(window);
+        window.render(timer);
+
+        window.render(player);
 
         window.display();
     }
