@@ -15,6 +15,7 @@ public:
     float getY();
     SDL_Texture* getTex();
     SDL_Rect getCurrentFrame();
+    SDL_Rect getCurrentPos();
     void move();
 protected:
     float x, y, vx = 0, vy = 0;

@@ -12,11 +12,10 @@ and may not be redistributed without written permission.*/
 #include"Player.h"
 #include"ball.h"
 #include"Timer.h"
+#include"collision.h"
 
 extern const int SCREEN_WIDTH = 1280;
 extern const int SCREEN_HEIGHT = 720;
-
-
 
 int main(int argc, char* args[])
 {
@@ -31,24 +30,24 @@ int main(int argc, char* args[])
 
     SDL_Texture* BackGround = window.loadTexture("./img/press.bmp");
 
-
     SDL_Texture* playerTex = window.loadTexture("./img/player.png");
 
-    SDL_Texture* BallTex = window.loadTexture("./img/ball.png");
+    SDL_Texture* BallTex = window.loadTexture("./img/ball2.png");
 
     Player player(0, 520, playerTex, 0, 0, 134, 200);
 
     Timer timer;
-
-    Ball *balls = new Ball[10];
-	for (int i=0; i<10; i++) {
-		balls[i].init(SCREEN_WIDTH, SCREEN_HEIGHT, 40, BallTex);
+	int ballNum = 1;
+	int collisionCounter = 0;
+    Ball *balls = new Ball[ballNum];
+	for (int i=0; i<ballNum; i++) {
+		balls[i].init(SCREEN_WIDTH, SCREEN_HEIGHT, 0, BallTex);
         balls[i].randomGenerator();
         balls[i].id = i;
     }
 
     bool gameRunning = true;
-
+	std::cout << "Game Start\n";
     SDL_Event event;
 
     while(gameRunning){
@@ -58,17 +57,21 @@ int main(int argc, char* args[])
             player.handleEvent(event);
         }
         window.clear();
-
         player.move();
         player.animation();
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < ballNum; i++){
             balls[i].motion();
+			if (Collision(balls[i].GetX(), balls[i].GetY(), balls[i].GetR(), player.getCurrentPos())) {
+				//collisionCounter++;
+				//std::cout << "collision: " << collisionCounter << "\n";
+				std::cout << "true\n";
+			}
         }
 
         window.renderBackground(BackGround, 640, 480);
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < ballNum; i++){
             window.render(balls[i]);
         }
 
@@ -80,6 +83,7 @@ int main(int argc, char* args[])
 
         window.display();
     }
+	delete balls;
     window.cleanUp();
     SDL_Quit();
     return 0;

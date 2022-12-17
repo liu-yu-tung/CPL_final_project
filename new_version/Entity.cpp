@@ -44,7 +44,16 @@ SDL_Rect Entity::getCurrentFrame()
 {
     return currentFrame;
 }
+SDL_Rect Entity::getCurrentPos()
+{
+    SDL_Rect pos;
+    pos.x = x;
+    pos.y = y;
+    pos.h = currentFrame.h;
+    pos.w = currentFrame.w;
+    return pos;
 
+}
 void Entity::move()
 {
     vy += 0.01;
