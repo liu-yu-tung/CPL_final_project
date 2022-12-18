@@ -37,7 +37,7 @@ int main(int argc, char* args[])
     Player player(0, 520, playerTex, 0, 0, 134, 200);
 
     Timer timer;
-	int ballNum = 1;
+	int ballNum = 10;
 	int collisionCounter = 0;
     Ball *balls = new Ball[ballNum];
 	for (int i=0; i<ballNum; i++) {

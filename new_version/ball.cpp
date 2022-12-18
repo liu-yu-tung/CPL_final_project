@@ -24,22 +24,25 @@ void Ball::randomGenerator () {
     */
     ddy = 0.001;
     r = 1.0*(rand() %  100 + 25);
-    x = 0.01*(rand() % (screenWidth - (int)r));
-    y = 0.01*(rand() % (screenHeight / 2 - (int)r));
-    v = 0.01*(rand() % 15 + 1);
-    dy = 0.00001*(rand() % 4 + 1);
+    //x = 1.01*(rand() % (screenWidth - (int)r));
+    x = 1.0*((rand() % 2) * screenWidth);
+    if (x == 0) x -= r; else x += r;
+    y = 1.01*(rand() % (screenHeight / 2 - (int)r));
+    v = 1.01*(rand() % 15 + 1);
+    dy = 1.00001*(rand() % 4 + 1);
+    dx = 1.00001*(rand() % 4 + 1);
+    if (x > 0) dx *= -1; 
     color = 1.0*(rand() % 16);
     //std::cout << color << std::endl;
 }
 void Ball::motion () {
     dy += ddy;
     x += dx;
-    if (x < r) dx = v;
-    else if (x >= screenWidth - r) dx = -v;
+    if (x < -r) randomGenerator();
+    else if (x >= screenWidth + r) randomGenerator();
     if (y < r && dy < 0) dy = -dy;
     else if (y >= screenHeight - floorHeight - r && dy > 0) dy = - dy;
     else y += dy;
-
     //std::cout << "id: " << id << ", (" << x << ", " << y << ")\n";
 }
 std::mt19937 Ball::seeded_engine() {
@@ -48,21 +51,15 @@ std::mt19937 Ball::seeded_engine() {
     return std::mt19937(seed);
 }
 
-
-
-float Ball::GetX()
-{
+float Ball::GetX() {
     return x;
 }
-float Ball::GetY()
-{
+float Ball::GetY() {
     return y;
 }
-float Ball::GetR()
-{
+float Ball::GetR() {
     return r;
 }
-SDL_Texture* Ball::GetTex()
-{
+SDL_Texture* Ball::GetTex() {
     return ballTex;
 }

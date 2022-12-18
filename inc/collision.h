@@ -6,24 +6,26 @@
 #include <math.h>
 
 bool Collision(int ball_x, int ball_y, int ball_r, SDL_Rect rect){//true means collision
-	if(rect.x <= ball_x && ball_x <= rect.x + rect.w){//²y¤ßx­«Å| 
+
+	/*
+	if(rect.x <= ball_x && ball_x <= rect.x + rect.w){//ï¿½yï¿½ï¿½xï¿½ï¿½ï¿½| 
 		if(rect.y - ball_r <= ball_y && ball_y <= rect.y + rect.h + ball_r) return true;
 	}
-	else if(rect.y <= ball_y && ball_y <= rect.y + rect.h){//y­«Å| 
+	else if(rect.y <= ball_y && ball_y <= rect.y + rect.h){//yï¿½ï¿½ï¿½| 
 		if(rect.x - ball_r <= ball_x && ball_x <= rect.x + rect.w + ball_r) return true;
 	}
-	else if(ball_x < rect.x){//ball¦b¥ªÃä 
-		if(ball_y < rect.y){//¥ª¤W
+	else if(ball_x < rect.x){//ballï¿½bï¿½ï¿½ï¿½ï¿½ 
+		if(ball_y < rect.y){//ï¿½ï¿½ï¿½W
 			if(pow(rect.x - ball_x,2) + pow(rect.y - ball_y,2) <= pow(ball_r,2)) return true;//Pythagorean theorem
 			else return false;
 		}
-		else {//¥ª¤U
+		else {//ï¿½ï¿½ï¿½U
 			if(pow(rect.x - ball_x,2) + pow(ball_y - rect.y - rect.h ,2) <= pow(ball_r,2)) return true;
 			else return false;
 		}
 	}
-	else{//ball¦b¥kÃä
-		if(ball_y < rect.y){//¥k¤W
+	else{//ballï¿½bï¿½kï¿½ï¿½
+		if(ball_y < rect.y){//ï¿½kï¿½W
 			if(pow(ball_x - rect.x - rect.w ,2) + pow(rect.y - ball_y,2) <= pow(ball_r,2)) return true;
 			else return false;
 		}
@@ -32,6 +34,7 @@ bool Collision(int ball_x, int ball_y, int ball_r, SDL_Rect rect){//true means c
 			else return false;
 		}
 	}
+	*/
 }
 
 #endif

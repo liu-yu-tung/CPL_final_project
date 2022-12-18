@@ -9,6 +9,7 @@ and may not be redistributed without written permission.*/
 
 #include"RenderWindow.h"
 #include"Entity.h"
+#include "ball.h"
 
 extern const int SCREEN_WIDTH = 1280;
 extern const int SCREEN_HEIGHT = 720;
