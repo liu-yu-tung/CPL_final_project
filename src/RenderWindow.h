@@ -5,6 +5,7 @@
 #include<SDL2/SDL_image.h>
 
 #include"Entity.h"
+#include"ball.h"
 
 class RenderWindow
 {
@@ -14,8 +15,11 @@ public:
     void cleanUp();
     void clear();
     void render(Entity& p_entity);
+    void render(Ball& p_ball);
     void renderBackground(SDL_Texture * backGround, int BGwidth, int BGheight);
     void display();
+
+    SDL_Renderer* GetRenderer();
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;

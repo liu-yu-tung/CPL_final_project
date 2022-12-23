@@ -9,10 +9,17 @@ and may not be redistributed without written permission.*/
 
 #include"RenderWindow.h"
 #include"Entity.h"
-#include "ball.h"
+#include"Player.h"
+#include"ball.h"
+#include"Timer.h"
+#include"Buttons.h"
+
+#include"collision.h"
 
 extern const int SCREEN_WIDTH = 1280;
 extern const int SCREEN_HEIGHT = 720;
+extern const int FLOOR_HEIGHT = 75;
+extern GameState CurrentGameState;
 
 int main(int argc, char* args[])
 {
@@ -21,38 +28,117 @@ int main(int argc, char* args[])
         std::cout << "SDL_Init has failed." << std::endl;
 
     if(!(IMG_Init(IMG_INIT_PNG)))
-        std::cout << "IMG_onit has failed." << std::endl;
+        std::cout << "IMG_Init has failed." << std::endl;
 
     RenderWindow window("GAME", SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    SDL_Texture* dot = window.loadTexture("./img/dot.bmp");
-    SDL_Texture* BackGround = window.loadTexture("./img/press.bmp");
 
-    Entity entities[3] = {Entity(0, 0, dot),
-                          Entity(30, 30, dot),
-                          Entity(30, 0, dot)};
+    SDL_Texture* BackGround = window.loadTexture("./img/background.png");
+
+
+    SDL_Texture* playerTex = window.loadTexture("./img/player.png");
+
+    SDL_Texture* BallTex = window.loadTexture("./img/ball.png");
+
+    SDL_Texture* restartButtonTex = window.loadTexture("./img/restart.png");
+
+    Buttons restartButton(restartButtonTex, 0, 0, 260, 260);
+
+    Player player(600, SCREEN_HEIGHT-FLOOR_HEIGHT-80, playerTex, 0, 0, 134, 200);
+
+    Timer timer;
+
+    Ball *balls = new Ball[10];
+	for (int i=0; i<10; i++) {
+		balls[i].init(SCREEN_WIDTH, SCREEN_HEIGHT, FLOOR_HEIGHT, BallTex);
+        balls[i].randomGenerator();
+        balls[i].id = i;
+    }
 
     bool gameRunning = true;
 
     SDL_Event event;
 
     while(gameRunning){
-        while(SDL_PollEvent(&event)){
-            if(event.type == SDL_QUIT)
-                gameRunning = false;
-            entities[2].handleEvent(event);
+        if(CurrentGameState == GAME_LAUNCHED){
+
+            for (int i=0; i<5; i++) {
+                balls[i].randomGenerator();
+                balls[i].id = i;
+            }
+
+            player.reset();
+            timer.reset();
+            while(SDL_PollEvent(&event)){
+                if(event.type == SDL_QUIT)
+                    gameRunning = false;
+                if( event.type == SDL_KEYUP && event.key.repeat == 0)
+                {
+                    switch( event.key.keysym.sym )
+                    {
+                        case SDLK_LEFT:
+                        case SDLK_RIGHT:
+                            CurrentGameState = GAME_STARTED;
+                            break;
+                    }
+                }
+            }
+            window.clear();
+            window.renderBackground(BackGround, 1200, 571);
+            window.render(player);
+            window.display();
         }
-        window.clear();
+        if(CurrentGameState == GAME_STARTED){
+            while(SDL_PollEvent(&event)){
+                if(event.type == SDL_QUIT)
+                    gameRunning = false;
+                player.handleEvent(event);
+            }
+            window.clear();
 
-        entities[2].move();
+            player.move();
+            player.animation();
 
-       window.renderBackground(BackGround, 640, 480);
+            for(int i = 0; i < 5; i++){
+                balls[i].motion();
+            }
 
-        for(int i = 0; i < 3; i++){
-            window.render(entities[i]);
+            window.renderBackground(BackGround, 1200, 571);
+
+            for(int i = 0; i < 5; i++){
+                if(Collision(balls[i], player.getCollisionBox())){
+//                    std::cout << "BAM" << std::endl;
+                    CurrentGameState = GAME_OVER;
+                }
+                window.render(balls[i]);
+            }
+
+            timer.loadTimer(window);
+            window.render(timer);
+
+            window.render(player);
+
+
+            window.display();
         }
+        if(CurrentGameState == GAME_OVER){
+            while(SDL_PollEvent(&event)){
+                if(event.type == SDL_QUIT)
+                    gameRunning = false;
+                    restartButton.handleEvent(event);
+            }
 
-        window.display();
+            window.clear();
+
+            timer.showRecord(window);
+
+            window.renderBackground(BackGround, 1200, 571);
+            window.render(restartButton);
+            window.render(timer);
+
+            window.render(player);
+            window.display();
+        }
     }
     window.cleanUp();
     SDL_Quit();
