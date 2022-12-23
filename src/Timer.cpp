@@ -7,6 +7,7 @@ Timer::Timer()
 {
     TTF_Init();
 	best = 0.0;
+	seed = 2374837.834783;
     font = TTF_OpenFont("lazy.ttf", 100);
     if(font == NULL) std::cout << "Font = NULL" << TTF_GetError() << std::endl;
     x = 600;
@@ -22,7 +23,7 @@ Timer::Timer()
 		std::cout << "File open successfully!\n";
 		myfile >> ch;
 		std::cout << ch << "\n";
-		best = std::stod(ch);
+		best = rxor(std::stod(ch));
 	}
 	myfile.close();
 	std::cout << "File closed!\n";
@@ -97,7 +98,7 @@ void Timer::showRecord(RenderWindow & p_window)
 	if (!myfile) {
 	}
 	else {
-		myfile << best;
+		myfile << rxor(best);
 		myfile.close();
 	}
 
@@ -134,6 +135,16 @@ void Timer::showRecord(RenderWindow & p_window)
     x = ( SCREEN_WIDTH - w )/2;
 }
 
+double Timer::rxor(double x) {
+	double d = seed;
+    double dd = x;
+    unsigned long long* uPtr = (unsigned long long*)&d;
+    unsigned long long* uuPtr = (unsigned long long*)&dd;
+    unsigned long long uXor = (*uPtr) ^ (*uuPtr);
+    double dXor = *((double*)&uXor);
+    //std::cout << dXor << "\n";
+	return dXor;
+}
 
 
 //void Timer::loadFromRenderedText()

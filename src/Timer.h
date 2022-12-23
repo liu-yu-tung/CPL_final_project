@@ -20,6 +20,8 @@ public:
     void reset();
     void loadTimer(RenderWindow & p_window);
     void showRecord(RenderWindow & p_window);
+    double rxor(double x);
+    double seed;
 
 private:
     double best;
