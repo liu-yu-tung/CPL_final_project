@@ -1,23 +1,32 @@
 #include"Timer.h"
 
-
-
-#include<iostream>
-#include<sstream>
-#include<iomanip>
-
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
 Timer::Timer()
 {
     TTF_Init();
+	best = 0.0;
     font = TTF_OpenFont("lazy.ttf", 100);
     if(font == NULL) std::cout << "Font = NULL" << TTF_GetError() << std::endl;
     x = 600;
     y = 0;
     currentFrame.x = 0;
     currentFrame.y = 0;
+	std::string ch;
+	myfile.open("myfile.in", std::ios::in);
+	if (!myfile) {
+		std::cout << "No such file!\n";
+	}
+	else {
+		std::cout << "File open successfully!\n";
+		myfile >> ch;
+		std::cout << ch << "\n";
+		best = std::stod(ch);
+	}
+	myfile.close();
+	std::cout << "File closed!\n";
+
 }
 Timer::~Timer()
 {
@@ -77,13 +86,20 @@ void Timer::reset()
 
 void Timer::showRecord(RenderWindow & p_window)
 {
-    static double best = 0;
     if(best < record_thisRound){
         best = record_thisRound;
     }
     timeText.str("");
     timeText << "Best:  " << best << "  ";
     timeText << "Your:  " << record_thisRound;
+
+	myfile.open("myfile.in", std::ios::out);
+	if (!myfile) {
+	}
+	else {
+		myfile << best;
+		myfile.close();
+	}
 
     if( tex != NULL )
 	{

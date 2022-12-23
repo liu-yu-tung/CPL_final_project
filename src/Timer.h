@@ -4,6 +4,7 @@
 #include<iostream>
 #include<string>
 #include<sstream>
+#include<fstream>
 #include<iomanip>
 
 #include"SDL2/SDL_ttf.h"
@@ -21,6 +22,8 @@ public:
     void showRecord(RenderWindow & p_window);
 
 private:
+    double best;
+    std::fstream myfile;
     void update();
     TTF_Font* font = NULL;
     SDL_Color textColor = { 0, 0, 0, 255 };
